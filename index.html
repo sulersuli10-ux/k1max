@@ -2,43 +2,64 @@
 <html lang="en">
 <head>
 <script>
+<!-- 1️⃣ Load Supabase FIRST -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- 2️⃣ Verification System -->
+<script>
 window.ENGINEX_ACCESS = false;
 
-(async function () {
+if (!window.__enginexVerified) {
 
-  const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
-  const SUPABASE_KEY = "YOUR_PUBLIC_KEY";
+  window.__enginexVerified = true;
 
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  (async function () {
 
-  let USER_EMAIL = localStorage.getItem("enginex_email");
+    const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
+    const SUPABASE_KEY = "YOUR_PUBLIC_KEY_HERE";
 
-  if (!USER_EMAIL) {
-    console.log("🔒 No email — Enginex locked");
-    return;
-  }
+    // Use window.supabase for safety
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const { data } = await supabaseClient
-    .from('subscribers')
-    .select('*')
-    .eq('email', USER_EMAIL)
-    .single();
+    const USER_EMAIL = localStorage.getItem("enginex_email");
 
-  if (data && data.status === "ACTIVE") {
+    if (!USER_EMAIL) {
+      console.log("🔒 No email cached — Enginex locked");
+      return;
+    }
 
-    window.ENGINEX_ACCESS = true;
+    const { data, error } = await supabaseClient
+      .from("subscribers")
+      .select("status")
+      .eq("email", USER_EMAIL)
+      .single();
 
-    const script = document.createElement("script");
-    script.src = "enginex.js";
-    document.head.appendChild(script);
+    if (error || !data) {
+      console.log("🔒 Subscriber not found — Enginex locked");
+      return;
+    }
 
-    console.log("✅ Enginex unlocked");
+    if (data.status === "ACTIVE") {
 
-  } else {
-    console.log("🔒 Enginex locked");
-  }
+      window.ENGINEX_ACCESS = true;
+      localStorage.setItem("enginex_last_check", Date.now());
 
-})();
+      console.log("✅ Enginex unlocked");
+
+      // Dynamically load Enginex ONLY after verification
+      const script = document.createElement("script");
+      script.src = "enginex.js";
+      script.defer = true;
+      document.head.appendChild(script);
+
+    } else {
+      console.log("🔒 Subscription inactive — Enginex locked");
+    }
+
+  })();
+}
+</script>
 </script>
  
     <meta charset="UTF-8">
@@ -919,9 +940,7 @@ You get far more; or far less ; according to focus on big steps</p>
 <script src="payment.js"></script>
         <script src="utilis.js"></script> 
         <script src="1frontend.js"></script>
-        <script src="2seaCalculator.js"></script>
-<script src="enginex.js"></script>
-    <script src="3airCalculator.js"></script>
-    <script src="4containerCalculator.js"></script>
-</body>
+        
+<script src="3airCalculator.js"></script>
+    </body>
 </html>
