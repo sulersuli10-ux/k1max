@@ -100,12 +100,7 @@ class SmartInput {
     syncToMaster(val) {
         const num = parseFloat(val) || 0;
 
-        // If Enginex is locked, do NOT mutate master array
-        if (window.ENGINEX_ACCESS !== true) {
-            return;
-        }
-
-        if (
+              if (
             typeof TAX_MASTER_ARRAY !== 'undefined' &&
             Array.isArray(TAX_MASTER_ARRAY) &&
             this.masterIndex !== undefined
