@@ -273,6 +273,11 @@ function setupProductSelector(prefix) {
 }
 
 async function loadTaxDataForCurrency(currencyCode) {
+    // 🔒 SUBSCRIPTION LOCK: Prevent tax data loading for unpaid users
+    if (window.ENGINEX_ACCESS !== true) {
+        return null;
+    }
+    
     const key = currencyCode.toLowerCase();
 
     if (TAX_DATA_CACHE[key]) {
@@ -299,6 +304,12 @@ async function loadTaxDataForCurrency(currencyCode) {
 // PRODUCT SELECTION FUNCTION - DYNAMIC JSON LOADING VERSION
 // =========================================================================
 window.selectProduct = function(code, prefix) {
+    // 🔒 SUBSCRIPTION LOCK: Block tax intelligence for unpaid users
+    if (window.ENGINEX_ACCESS !== true) {
+        showMessage('🔒 Subscription required to access tax intelligence', 'error', prefix);
+        return;
+    }
+
     if (!countrySelected) {
         showMessage('🛑 Plug in destination country first 🌍', 'error', prefix);
         return;
@@ -368,6 +379,11 @@ window.selectProduct = function(code, prefix) {
 // TAX UPDATE FUNCTION
 // =========================================================================
 function dispatchTaxUpdate(prefix) {
+    // 🔒 SUBSCRIPTION LOCK: Prevent tax field updates for unpaid users
+    if (window.ENGINEX_ACCESS !== true) {
+        return;
+    }
+
     const fields = [
         'customsDutyRate-input',
         'vatRate-input',
