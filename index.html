@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<head>
+
+
 <head>
 
-<!-- 1️⃣ Load Supabase FIRST -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- 2️⃣ Then your script -->
 <script>
-window.addEventListener("load", async function () {
+if (!window.__enginexVerified) {
 
-  const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_auF-Gg9ObYeHD70Qu3YW8g_wSxegBVy";
+  window.__enginexVerified = true;
 
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  (async function () {
 
-  const USER_EMAIL = "test@email.com";
+    const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_auF-Gg9ObYeHD70Qu3YW8g_wSxegBVy";
 
-  const { data, error } = await supabaseClient
-    .from('subscribers')
-    .select('*')
-    .eq('email', USER_EMAIL)
-    .single();
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  if (error || !data) {
-    console.log("❌ No subscription found");
-    document.body.style.opacity = "0.3";
-    return;
-  }
+    let USER_EMAIL = localStorage.getItem("enginex_email");
 
-  if (data.status === "ACTIVE") {
-    console.log("✅ Subscription ACTIVE");
-    document.body.style.opacity = "1";
-  } else {
-    console.log("❌ Subscription NOT ACTIVE");
-    document.body.style.opacity = "0.3";
-  }
+    if (!USER_EMAIL) {
+      USER_EMAIL = prompt("Enter your subscription email:");
+      localStorage.setItem("enginex_email", USER_EMAIL);
+    }
 
-});
+    const { data, error } = await supabaseClient
+      .from('subscribers')
+      .select('*')
+      .eq('email', USER_EMAIL)
+      .single();
+
+    console.log("Verification result:", data);
+
+    if (error || !data) {
+      console.log("❌ No subscription found");
+      document.body.style.opacity = "0.3";
+      return;
+    }
+
+    if (data.status === "ACTIVE") {
+      console.log("✅ Subscription ACTIVE");
+      document.body.style.opacity = "1";
+    } else {
+      console.log("❌ Subscription NOT ACTIVE");
+      document.body.style.opacity = "0.3";
+    }
+
+  })();
+}
 </script>
 
-</head>
+ 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K1 Max Global</title><script src="hsCodes.js"></script>
