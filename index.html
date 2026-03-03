@@ -7,16 +7,24 @@ const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_auF-Gg9ObYeHD70Qu3YW8g_wSxegBVy";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-</script><script>
+</script>
+<script>
 async function testConnection() {
+  const resultDiv = document.createElement("div");
+  resultDiv.style.padding = "20px";
+  resultDiv.style.background = "black";
+  resultDiv.style.color = "lime";
+  resultDiv.innerText = "Testing connection...";
+  document.body.prepend(resultDiv);
+
   const { data, error } = await supabaseClient
     .from('subscribers')
     .select('*');
 
   if (error) {
-    console.log("Connection error:", error);
+    resultDiv.innerText = "ERROR: " + error.message;
   } else {
-    console.log("Connected successfully:", data);
+    resultDiv.innerText = "Connected successfully";
   }
 }
 
