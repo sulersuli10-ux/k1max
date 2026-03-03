@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K1 Max Global</title><script src="hsCodes.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    </head><body><div class="body">
+    <a id="top"></a>
+    
+    <div id="seaCalculator" class="calculator active" class="calculator swing-item">
+<strong> 
+              <!-- Replace your existing exchange rate input with this -->
+<div class="input-group glassplate goldbody r">
+    <label for="sea-exchangeRateValue">E.Rate; 1💲 = </label>
+    <input type="number" id="sea-exchangeRateValue" min="0" step="0.01" class="globe">
+    <input type="text" id="sea-exchangeRateWord" maxlength="6" class="globe" placeholder="🪐">
+    
+    <div id="sea-country-currency-selector" class="selector">
+    <div class="a3">
+        <input type="text" id="sea-country-search" placeholder="Search country or currency of Destination..." class="a4">
+        <button id="sea-refresh-rates" title="Refresh exchange rates">🔄</button>
+    </div>
+    <div id="sea-country-list" class="a6"></div>
+    <div class="a8">
+        <span id="sea-api-source">Rates provided by ExchangeRate-API</span>
+        <span id="sea-last-updated" class="a7"></span>
+    </div>
+</div>
+</div>
+    
+<strong>
+<div class="a9">
+    
+    <div class="b1">
+        <div style="flex: 1; min-width: 0; position: relative;">
+            <input type="text" id="product-category-search" placeholder="🔍 Search Product or HsCode.." class="searchcategory">
+            
+              <div class="selecting b none" id="product-category-selector"
+ class="b2 b">
+
+                <div id="product-category-list"></div>
+            </div>
+        </div>
+        
+        <input onclick="document.querySelector('.calculator').style.backgroundImage='url(./img/wall'+(Math.floor(Math.random()*3)+1)+'.png)'" type="text" id="selected-hs-code-display" placeholder="Hs code" class="hscodedisplay" readonly></div>
+
+    <div id="hs-code-scroll" class="hscodescroll">
+        </div>
+
+    <div id="tax-status-message" class="taxmessage"></div>
+    
+</div>
+
+<script src="rates.js"></script>
+<script src="productcodes.js"></script>
+
+
+
+
+
+
+
+
+
+<div class="glassplate">
+
+
+
+
+
+
+
+    <!-- Dimensions Section -->
+
+   
+  <h5>1️⃣</h5>
+<div id="seaHeaderMessageDisplay" class="header-message-box none"></div>
+
+
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel y">📏 Length (cm)</div>
+            <input class="sizeinput" type="number" id="sea-length" min="0" step="0.01" placeholder="📏">
+        </div>
+        <div class="part r">
+            <div class="sizelabel y">📦 Width(cm)</div>
+            <input class="sizeinput" type="number" id="sea-width" min="0" step="0.01" placeholder="📦">
+        </div>
+        <div class="part r">
+            <div class="sizelabel y">📐Height (cm)</div>
+            <input class="sizeinput" type="number" id="sea-height" min="0" step="0.01" placeholder="📐">
+        </div>
+    </div>
+
+    <!-- Quantity Section with Checkbox -->
+
+
+  <h5>2️⃣</h5>
+   
+        
+
+
+    <div class="quantity f b3 pcs goldbody">
+        <!-- Checkbox positioned at the beginning -->
+        <div class="floating-checkbox-sea check">
+            <input type="checkbox" id="sea-pieceCheckbox">
+            <label for="sea-pieceCheckbox"></label>
+        </div>
+        <div> Quantity →</div>
+        <input type="number" id="sea-numberOfPieces" min="0" step="1" placeholder="📟" class="sizeinput" style="flex: 1; min-width: 0;">
+    </div>
+
+    <!-- Pricing Section -->
+
+
+  <h5>3️⃣</h5>
+
+
+
+
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel cat">Price Per Piece (💲)</div>
+            <input type="number" id="sea-pricePerPiece" min="0" step="0.01" placeholder="💲" class="sizeinput z">
+        </div>
+        <div class="part r">
+            <div class="sizelabel cat">Selling Per Piece (<span id="sellingPriceCurrency">UGX</span>)</div>
+            <input type="number" id="sea-sellingPricePerPiece" min="0" step="0.01" placeholder="🪐" class="sizeinput zt">
+        </div>
+    </div>
+</div>
+
+
+     
+    <h5>4️⃣</h5>
+
+<div class="glassplate">
+    <div class="goldbody">
+        <div id="sea-pricePerCBM-container"></div>
+    
+    <div id="sea-tax-fields-main"></div>
+</div></div>
+
+<h5>5️⃣</h5>
+
+
+<div class="glassplate">
+    <div class="goldbody">
+    <div class="gap f">
+        <div class="part r">
+            <div class="sizelabel os">Withholding tax%</div>
+            <input class="sizeinput" type="number" id="sea-withholdingTax-input" min="0" step="0.01">
+        </div>
+        <div class="part r">
+            <div class="sizelabel os">Import Decl. Fees%</div>
+            <input class="sizeinput" type="number" id="sea-idf-input" min="0" step="0.01">
+        </div>
+        <div class="part r">
+            <div class="sizelabel os">Infrastruc. Levy%</div>
+            <input class="sizeinput" type="number" id="sea-infrastructureLevy-input" min="0" step="0.01">
+        </div>
+    </div></div>
+
+    
+    <br>
+    
+    
+    <div class="goldbody gap f">
+<div class="part r">
+            <div class="sizelabel os">🛡️ Insurance%</div>
+            <input class="sizeinput" type="number" id="sea-insurance" min="0" step="0.01">
+        </div>
+
+
+        <div class="part r">
+            <div class="sizelabel os">Extra Tax ⚠️%</div>
+            <input class="sizeinput" type="number" id="sea-ExtraTax" min="0" step="0.01">
+        </div>
+
+<div class="part r">
+            <div class="sizelabel os">🏗️ Handling fees</div>
+            <input class="sizeinput" type="number" id="sea-handlingFees" min="0" step="0.01">
+        </div>
+    </div>
+        
+    🗒️Final taxes are determined by Tax authorities!
+
+</div>
+
+     
+  
+        
+ 
+<div id="seaResultsTop" style="text-align: center; color: #76ff7a;">
+  ⚓ <strong>RESULTS</strong>
+</div> 
+
+<table class="sea-results-table" onclick="this.previousElementSibling.scrollIntoView({behavior:'smooth'})">
+    <thead>
+        <tr>
+            <th style="font-family: 'Audiowide';">ITEM</th>
+            <th style="font-family: 'Audiowide';">VALUE</th>
+        </tr>
+    </thead>
+    <tbody id="sea-resultsBody"></tbody>
+</table>
+
+
+
+
+
+
+
+
+  <h5 style="
+    font-size: 0.7em; 
+    margin-top: 0px; 
+    min-height: 15px; 
+    color: #76ff7a; 
+    text-align: right; 
+">
+   
+        Digital Investment Graph
+</h5>
+
+
+
+
+<!-- Packaging Plan Popup -->
+
+<div id="sea-packaging-plan">
+    <div id="sea-packaging-content">
+        </div>
+</div>
+
+<div id="sea-packaging-plan">
+    <h4>Sea Freight Packaging Plan</h4>
+    <div id="sea-packaging-content"></div>
+    <p class="table-footnote">Tap outside to close</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+     <div class="main-content-grid">
+
+  <div class="graph-container g1">
+          <div class="graphart">
+      <canvas id="seaCircularChart" width="200" height="200"></canvas>
+      <div class="chart-labels"></div>
+    </div>
+
+    <div class="chart-container">
+      <div id="seaRoiBox"></div>
+      <canvas id="seaBarChart" width="400" height="200"></canvas>
+      <div class="bar-labels-container" style="display: flex; justify-content: space-around;"></div>
+    </div>
+  
+  </div>
+         
+
+
+
+
+
+<div id="sea-packaging-toggle" class="grid-item goldbody graphist"> 
+      <h4 class="g1">Packaging plan</h4>
+     <p class="cuvy">No RISK; no STORY; no GAIN...
+<p class="cuvy">1<sup>st</sup> rule of business; PROTECT your investment...<br>You  only get SMARTER by playing a SMARTER opponent...</p></p>
+   </div>
+
+         
+</div>
+
+                        
+
+       <a name="seaAI"></a>
+           <h4 onclick="handleCalculator('sea')">💡 Your numbers tell a story. Let's find the hidden opportunities. I see 👀;</h4>
+          
+  
+<div class="ai-advice-grid">
+    <div class="ai-advice-box">
+        <!-- Your existing AI advice content goes here -->
+        <div id="seaAiAdvice" class="ai-advice-content"></div>
+    </div>
+    <div class="ai-action-buttons">
+        <button class="ai-btn">📊 Details</button>
+        <button class="ai-btn">💡 Insights</button>
+        <button class="ai-btn">🚀 Actions</button>
+    </div>
+</div>
+
+
+
+
+
+        
+  
+            <label for="sea-pieceCheckbox"></label>
+        </div></div>
+            
+            
+    <!-- Air Calculator -->
+    <div id="airCalculator" class="calculator">
+  
+    
+    <div id="airHeaderMessageDisplay" class="header-message-box none"></div>
+    
+    <strong> 
+        <!-- Exchange Rate Input -->
+       <div class="input-group r glassplate">
+    <label for="air-exchangeRateValue">E.Rate | 1💲 = </label>
+    <input type="number" id="air-exchangeRateValue" min="0" step="0.01" class="sizeinput">
+    <input type="text" id="air-exchangeRateWord" maxlength="6" class="sizeinput" placeholder="🪐">
+    
+    <div id="air-country-currency-selector" class="selector">
+    <div class="a3">
+        <input type="text" id="air-country-search" placeholder="Search country or currency..." class="a4">
+        <button id="air-refresh-rates" title="Refresh exchange rates">🔄</button>
+    </div>
+    <div id="air-country-list" class="a6"></div>
+    <div class="a8">
+        <span id="air-api-source">Rates provided by ExchangeRate-API</span>
+        <span id="air-last-updated" class="a7"></span>
+    </div>
+</div>
+</div>
+        <strong>
+
+<!-- Air Calculator HS Code Selection -->
+<div class="a9">
+    
+    <div class="b1">
+        <div style="flex: 1; min-width: 0; position: relative;">
+            <input type="text" id="air-product-category-search" placeholder="🔍 Search Category or Code..." class="searchcategory">
+            
+            <div class="selecting b none" id="air-product-category-selector" class="b2 bos">
+                <div id="air-product-category-list"></div>
+            </div>
+        </div>
+        
+        <input type="text" id="air-selected-hs-code-display" placeholder="✈️AIR🛬" class="hscodedisplay" readonly>
+    </div>
+
+    <div id="air-hs-code-scroll" class="hscodescroll"></div>
+
+    <div id="air-tax-status-message" class="taxmessage"></div>
+    <input type="hidden" id="air-customsDutyRate-input" value="0">
+    <input type="hidden" id="air-vatRate-input" value="0">
+</div>
+
+
+            <div class="glassplate goldbody">
+    <!-- Dimensions Section -->
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel">📏 L (cm)</div>
+            <input class="sizeinput" type="number" id="air-length" min="0" step="0.01" placeholder="📏">
+        </div>
+        <div class="part r">
+            <div class="sizelabel">📦 W (cm)</div>
+            <input class="sizeinput" type="number" id="air-width" min="0" step="0.01" placeholder="📦">
+        </div>
+        <div class="part r">
+            <div class="sizelabel">📐 H (cm)</div>
+            <input class="sizeinput" type="number" id="air-height" min="0" step="0.01" placeholder="📐">
+        </div>
+    </div>
+
+    <!-- Weight Section -->
+    <div class="quantity f b3 pcs">
+        <div>⚖️ Actual Weight (Kg) →</div>
+        <input type="number" id="air-actualWeight" min="0" step="0.01" placeholder="📟" class="sizeinput s" style="flex: 1; min-width: 0;">
+    </div>
+
+    <!-- Quantity Section with Checkbox -->
+    <div class="quantity f b3">
+        <!-- Checkbox positioned at the beginning -->
+        <div class="floating-checkbox-air check">
+            <input type="checkbox" id="air-pieceCheckbox">
+            <label for="air-pieceCheckbox"></label>
+        </div>
+        <div style="font-size: 0.85em; white-space: nowrap; flex-shrink: 0;">📦 Number of pieces →</div>
+        <input type="number" id="air-numberOfPieces" min="0" step="1" placeholder="📟" class="sizeinput s" style="flex: 1; min-width: 0;">
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel y">BUY @ pc(💲)</div>
+            <input type="number" id="air-pricePerPiece" min="0" step="0.01" placeholder="💲" class="sizeinput z">
+        </div>
+        <div class="part r">
+            <div class="sizelabel y">SELL @ pc (<span id="air-sellingPriceCurrency">UGX</span>)</div>
+            <input type="number" id="air-sellingPricePerPiece" min="0" step="0.01" placeholder="🌍" class="sizeinput zt s">
+        </div>
+    </div>
+
+    <div id="air-status-indicator" class="idct">
+        <div class="idt"></div>
+        <span>⚠️ Complete all fields</span>
+    </div>
+</div>
+
+
+
+ <div class="input-group">
+    <label for="air-insurance">🛡️ Insurance  (%):</label>
+    <input type="number" id="air-insurance" min="0" step="0.01" class="others">
+</div>
+
+
+            <div class="glassplate goldbody">
+                <div class="input-group">
+                    <label for="air-pricePerKG-input">Price per KG (💲):</label>
+                    <div class="custom-select">
+                        <input type="text" class="custom-input" data-suffix="usd" placeholder="0 usd" id="air-pricePerKG-input">
+                        <div class="custom-arrow">▼</div>
+                        <div class="custom-options" id="air-pricePerKG-options">
+                            <div data-value="7" data-display="7 usd">7 usd</div>
+                            <div data-value="3" data-display="3 usd">3 usd</div>
+                            <div data-value="5" data-display="5 usd">5 usd</div>
+                            <div data-value="10" data-display="10 usd">10 usd</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Air Customs Duty Rate -->
+                <div class="input-group">
+                    <label for="air-customsDutyRate-input">🧾 Import Duty Rate:</label>
+                    <div class="custom-select">
+                        <input type="text" class="custom-input" data-suffix="%" placeholder="0%" id="air-customsDutyRate-input">
+                        <div class="custom-arrow">▼</div>
+                        <div class="custom-options" id="air-customsDutyRate-options">
+                            <div data-value="10" data-display="10%">10%</div>
+                            <div data-value="50" data-display="50%">50%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="air-vatRate-input">🧾 VAT Rate:</label>
+                    <div class="custom-select">
+                        <input type="text" class="custom-input" data-suffix="%" placeholder="0%" id="air-vatRate-input">
+                        <div class="custom-arrow">▼</div>
+                        <div class="custom-options" id="air-vatRate-options">
+                            <div data-value="18" data-display="18%">18%</div>
+                             <div data-value="25" data-display="25%">25%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            
+            <h5 style="font-size: 0.7em; margin-top: 5px; min-height: 15px; color: #76ff7a; text-align: right;">
+                <i>✅ Note; Final taxes are determined by tax authorities; Research them.</i>
+            </h5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <div class="glassplate goldbody">
+
+ </strong> </strong>
+        <small>
+          
+
+
+
+
+
+
+
+         
+📖       
+         <div style="box-shadow: inset 0 0 10px rgba( 255, 200,200, 1), 0 0 10px rgba(0, 205, 10, 0.5);">
+
+
+
+<!-- others Section -->
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel">With Holding</div>
+            <input class="sizeinput os" type="number" id="air-withHoldingFees" min="0" step="0.01" placeholder="(%)">
+        </div>
+        <div class="part r">
+            <div class="sizelabel">Import Decl. Fees</div>
+            <input class="sizeinput os" type="number" id="air-ImportDecl.Fees" min="0" step="0.01" placeholder="%">
+        </div>
+        <div class="part r">
+            <div class="sizelabel">Infrastruc. Levy</div>
+            <input class="sizeinput os" type="number" id="air-infrastructureLevy" min="0" step="0.01" placeholder="%">
+        </div>
+    </div>
+
+            
+          
+📰
+
+<!-- Dimensions Section -->
+    <div class="goldbody gap f">
+        <div class="part r">
+            <div class="sizelabel">Cubic Divisor</div>
+            <input class="sizeinput os" type="number" id="air-cubicDivisor" min="0" step="0.01" placeholder="(%)">
+        </div>
+
+
+
+
+<div class="part r">
+            <div class="sizelabel">Extra Tax ⚠️</div>
+            <input class="sizeinput os" type="number" id="sea-ExtraTax" min="0" step="0.01" placeholder="(%)">
+        </div>
+
+
+
+
+
+        
+        <div class="part r">
+            <div class="sizelabel">🏗️ Handling fees</div>
+            <input class="sizeinput os" type="number" id="air-handlingFees" min="0" step="0.01" placeholder="%">
+        </div>
+    </div>
+
+
+
+
+
+
+        </small>
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <hr>
+
+            <a name="airResults"></a>
+
+            <strong>
+                <div style="font-family: 'Exo 2', cursive; text-align: center; align-items: center;">
+                    <strong>RESULTS</strong>
+                </div>
+                <table style="z-index: 20;" class="air-results-table">
+                    <thead>
+                        <tr>
+                            <th style="z-index: 20; font-family: 'Audiowide', cursive;">ITEM</th>
+                            <th style="z-index: 20; font-family: 'Audiowide', cursive;">VALUE</th>
+                        </tr>
+                    </thead>
+                    <tbody style="z-index: 20;" id="air-resultsBody"></tbody>
+                </table>
+            </strong>
+
+            <h5>Digital Investment Graph</h5>
+
+
+
+            <div class="main-content-grid">
+                <div  class="graph-container g1">
+                    <div id="air-packaging-toggle" class="graphart">
+                        <canvas id="airCircularChart" width="200" height="200"></canvas>
+                        <div class="chart-labels"></div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div id="airRoiBox"></div>
+                        <canvas id="airBarChart" width="400" height="200"></canvas>
+                        <div class="bar-labels-container" style="display: flex; justify-content: space-around;"></div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="grid-item goldbody graphist">
+                    <h4 class="g1">Packaging plan</h4>
+                    <p class="cuvy">80\20 rule;
+You get far more; or far less ; according to focus on big steps</p>
+                    <p class="cuvy">Words have POWER; if they lead to ACTION!</p>
+                </div>
+            </div>
+
+            
+            
+        </strong>
+    </strong>
+</div>
+        
+      <a id="top"></a>
+    <div id="containerCalculator" class="calculator">
+    
+   
+
+            <h5>Digital Investment Graph</h5>
+
+            <div class="main-content-grid">
+                <div class="graph-container g1">
+                    <div id="container-packaging-toggle" class="graphart">
+                        <canvas id="containerCircularChart" width="200" height="200"></canvas>
+                        <div class="chart-labels"></div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div id="containerRoiBox"></div>
+                        <canvas id="containerBarChart" width="400" height="200"></canvas>
+                        <div class="bar-labels-container" style="display: flex; justify-content: space-around;"></div>
+                    </div>
+                </div>
+
+                <div class="grid-item">
+                    <h4 class="g1">Packaging plan</h4>
+                    <p class="cuvy">Figures instantly visualized here.</p>
+                    <p class="cuvy">Touch bubble chart to be ahead with a packaging plan. <br> Charts only update when calculation button is hit</p>
+                </div>
+            </div>
+
+            
+
+            <div class="floating-checkbox-container">
+                <input type="checkbox" id="container-pieceCheckbox">
+                <label for="container-pieceCheckbox"></label>
+            </div>
+        </strong>
+    </strong>
+</div>
+
+
+
+
+
+
+<a name="HOME">
+                <!-- FOOTER-->
+   
+   
+     
+    <div class="shaking-text"> 
+    <div  class="social-media">
+    <a href="#top" onclick="showCalculator('sea')"><img src="img/sea.png" alt="Sea"></a>
+    <a href="#top" onclick="showCalculator('air')"><img src="img/air.png" alt="Air"></a>
+    <a href="#top" onclick="clearAllInputs()"><img src="img/goodone.png" alt="Goodone"></a>
+    <a href="#top" onclick="showCalculator('container')"><img src="img/container.png" alt="Container"></a>
+    <a href="#top"><img src="img/Whatsapp.png" alt="WhatsApp"></a>
+</div>
+     </div>
+<h1>K1 MAX</h1>
+<a id="foot"></a> <div class="copyright">
+        &copy; 2025 Winner Art Ug. All rights reserved.
+    </div>
+
+<script>
+// ULTRA SMART - Everything auto-clears on click, shooting stars with cleanup, goodone nuke
+(function() {
+    // ===== PART 1: SHOOTING STARS (no memory leaks) =====
+    let intervals = [];
+    
+    function createStar(parent) {
+        const star = document.createElement('div');
+        star.style.cssText = `
+            position: absolute;
+            width: 6px;
+            height: 2px;
+            background: linear-gradient(90deg, gold, transparent);
+            top: ${Math.random() * 100}%;
+            left: ${Math.random() * 100}%;
+            transform: rotate(-45deg);
+            box-shadow: 0 0 20px 4px gold;
+            animation: shoot 2s ease-out;
+            z-index: 10;
+            pointer-events: none;
+        `;
+        parent.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+    }
+    
+    function startStars() {
+        intervals.forEach(clearInterval);
+        intervals = [];
+        
+        document.querySelectorAll('.sea-results-table, .air-results-table, .container-results-table').forEach(table => {
+            if (table.isConnected) {
+                intervals.push(setInterval(() => {
+                    if (Math.random() > 0.5 && table.isConnected) createStar(table);
+                }, 1000));
+            }
+        });
+        
+        const glassplate = document.querySelector('.glassplate');
+        if (glassplate?.isConnected) {
+            intervals.push(setInterval(() => {
+                if (Math.random() > 0.7 && glassplate.isConnected) createStar(glassplate);
+            }, 1000));
+        }
+    }
+    
+    // ===== PART 2: CLICK TO CLEAR ANY INPUT (ULTRA FEATURE) =====
+    function setupClickToClear() {
+        document.querySelectorAll('input[type="number"], input.sizeinput, input.globe, .custom-input, #sea-exchangeRateWord, #air-exchangeRateWord').forEach(input => {
+            // Remove existing to prevent duplicates
+            input.removeEventListener('click', clearHandler);
+            input.addEventListener('click', clearHandler);
+        });
+    }
+    
+    function clearHandler(e) {
+        this.value = ''; // Instant wipe on click
+    }
+    
+    // ===== PART 3: GOODONE BUTTON - NUKE EVERYTHING =====
+    function setupGoodoneNuke() {
+        const goodone = document.querySelector('img[src*="goodone"], img[alt*="Goodone"]');
+        if (goodone) {
+            goodone.removeEventListener('click', nukeHandler);
+            goodone.addEventListener('click', nukeHandler);
+        }
+    }
+    
+    function nukeHandler() {
+        // Wipe ALL inputs
+        document.querySelectorAll('input').forEach(i => i.value = '');
+        // Wipe ALL results tables
+        document.querySelectorAll('table tbody, .sea-results-body, #air-resultsBody, #container-resultsBody').forEach(t => t.innerHTML = '');
+        // Wipe any selectors or displays
+        document.querySelectorAll('.hscodedisplay, #selected-hs-code-display').forEach(d => d.value = '');
+    }
+    
+    // ===== PART 4: INITIALIZE EVERYTHING =====
+    document.addEventListener('DOMContentLoaded', () => {
+        startStars();
+        setupClickToClear();
+        setupGoodoneNuke();
+    });
+    
+    // Re-run when calculator changes
+    const originalShow = window.showCalculator;
+    if (originalShow) {
+        window.showCalculator = function(type) {
+            originalShow(type);
+            setTimeout(() => {
+                startStars();
+                setupClickToClear(); // Re-attach click handlers for new inputs
+            }, 100);
+        };
+    }
+})();
+</script>
+
+
+<script>
+(function() {
+    const t = document.body.appendChild(document.createElement('div'));
+    
+    t.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: black;
+        border: 2px solid gold;
+        border-radius: 8px;
+        padding: 8px 16px;
+        color: #7f7;
+        font: bold 14px monospace;
+        z-index: 99999;
+        display: none;
+        box-shadow: 0 0 20px gold;
+        white-space: nowrap;
+    `;
+
+    const m = {
+        len:'📏 Length in centimeters',
+        wid:'📦 Width in centimeters',
+        hei:'📐 Height in centimeters',
+        wei:'⚖️ Actual weight in kilograms',
+        'priceperpiece':'💲 Buy price per piece in USD',
+        'sellingpriceperpiece':'💰 Selling price per piece in local currency',
+        cbm:'🚢 Sea freight cost per CBM in USD',
+        kg:'✈️ Air freight cost per KG in USD',
+        duty:'🧾 Import duty rate percentage',
+        vat:'📊 VAT rate percentage',
+        withholding:'💸 Withholding tax percentage',
+        levy:'🏗️ Infrastructure levy percentage',
+        idf:'📄 Import declaration fee percentage',
+        insurance:'🛡️ Insurance percentage',
+        ext:'⚠️ Extra tax percentage',
+        handling:'🏗️ Handling fees in local currency'
+         };
+
+    document.addEventListener('focusin', (e) => {
+        const i = e.target;
+        if (!i || !i.id) return;
+        
+        const id = i.id.toLowerCase();
+        let msg = null;
+        
+        // Check for selling price first (more specific)
+        if (id.includes('sellingpriceperpiece')) {
+            msg = m.sellingpriceperpiece;
+        } 
+        // Then check all others
+        else {
+            for (let k in m) {
+                if (id.includes(k)) {
+                    msg = m[k];
+                    break;
+                }
+            }
+        }
+        
+        if (msg) {
+            t.textContent = msg;
+            t.style.display = 'block';
+        }
+    });
+
+    document.addEventListener('focusout', () => t.style.display = 'none');
+    document.addEventListener('scroll', () => t.style.display = 'none');
+    document.addEventListener('mousedown', (e) => {
+        if (!e.target.closest('input')) t.style.display = 'none';
+    });
+})();
+</script>
+
+
+
+
+     </body>
+
+
+
+   
+
+
+
+       
+<script src="payment.js"></script>
+        <script src="utilis.js"></script> 
+        <script src="1frontend.js"></script>
+        <script src="2seaCalculator.js"></script>
+<script src="enginex.js"></script>
+    <script src="3airCalculator.js"></script>
+    <script src="4containerCalculator.js"></script>
+</body>
+</html>
