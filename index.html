@@ -2,26 +2,49 @@
 <html lang="en">
 <head>
 <head>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_auF-Gg9ObYeHD70Qu3YW8g_wSxegBVy";
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function testConnection() {
-  console.log("Testing subscribers table...");
+// 🔐 Change this to the email you want to check
+const USER_EMAIL = "test@email.com";
+
+async function verifyAccess() {
 
   const { data, error } = await supabaseClient
     .from('subscribers')
-    .select('*');
+    .select('*')
+    .eq('email', USER_EMAIL)
+    .single();
 
-  console.log("DATA:", data);
-  console.log("ERROR:", error);
+  if (error || !data) {
+    console.log("❌ No subscription found");
+    lockEngine();
+    return;
+  }
+
+  if (data.status === "ACTIVE") {
+    console.log("✅ Subscription ACTIVE");
+    unlockEngine();
+  } else {
+    console.log("❌ Subscription NOT ACTIVE");
+    lockEngine();
+  }
 }
 
-window.addEventListener("load", testConnection);
+function lockEngine() {
+  document.body.style.opacity = "0.3";
+  alert("Subscription required to use Enginex.");
+}
+
+function unlockEngine() {
+  document.body.style.opacity = "1";
+  console.log("Engine unlocked.");
+}
+
+window.addEventListener("load", verifyAccess);
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
