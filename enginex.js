@@ -2,12 +2,20 @@
 // ==========================================
 
 function calculateSea() {
+    if (!window.ENGINEX_ACCESS) {
+        console.log("🚫 Enginex locked (Sea)");
+        return;
+    }
     if (!window.enginex) return;
     const results = enginex.calculate('sea');
     enginex.updateResultsTable('sea', results);
 }
 
 function calculateAir() {
+    if (!window.ENGINEX_ACCESS) {
+        console.log("🚫 Enginex locked (Air)");
+        return;
+    }
     if (!window.enginex) return;
     const results = enginex.calculate('air');
     enginex.updateResultsTable('air', results);
@@ -68,6 +76,12 @@ const enginex = {
        MAIN CALCULATION LOGIC
     ================================== */
     calculate: function(calculatorType) {
+        // 🔒 HARD GUARD: Block calculations if access is false
+        if (!window.ENGINEX_ACCESS) {
+            console.log("🚫 Core engine blocked");
+            return {};
+        }
+        
         const inputs = this.getInputs(calculatorType);
         const results = {};
         const lengthM = inputs.length / 100;
