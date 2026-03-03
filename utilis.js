@@ -1,6 +1,6 @@
 /**
  * SMART INPUT SYSTEM - Logic & Implementation
- * LOCK SAFE VERSION
+ * FINAL STABLE VERSION (Engine Lock Compatible)
  */
 
 class SmartInput {
@@ -9,15 +9,15 @@ class SmartInput {
         this.unit = unit;
         this.masterIndex = masterIndex;
         this.hasDropdown = presets && presets.length > 0;
-        
+
         const existingInput = document.getElementById(id);
 
         if (existingInput) {
-            // MODE: Bind to existing HTML
+            // Bind to existing HTML input
             this.input = existingInput;
             this.isManualOnly = true;
         } else {
-            // MODE: Create new Dropdown UI
+            // Create dropdown UI
             this.isManualOnly = false;
             this.container = document.createElement('div');
             this.container.className = 'input-group';
@@ -32,10 +32,12 @@ class SmartInput {
                         ${presets.map(p => `<div data-val="${p}">${p} ${unit}</div>`).join('')}
                     </div>` : ''}
                 </div>`;
-            
+
             const target = document.getElementById(containerId);
             if (target) target.appendChild(this.container);
+
             this.input = this.container.querySelector('input');
+
             if (this.hasDropdown) this.initDropdown();
         }
 
@@ -66,13 +68,13 @@ class SmartInput {
     }
 
     initManual() {
-        this.input.onfocus = () => { 
+        this.input.onfocus = () => {
             if (!this.isManualOnly) {
                 this.input.value = this.input.value.replace(/[^\d.]/g, '');
             }
         };
 
-        this.input.onblur = () => { 
+        this.input.onblur = () => {
             if (this.input.value !== "") {
                 this.setValue(this.input.value);
                 this.syncToMaster(this.input.value);
@@ -88,28 +90,32 @@ class SmartInput {
     setValue(val) {
         const num = parseFloat(val) || 0;
 
-        // Do NOT append unit in manual-only fields
+        // Do not append unit in manual-only mode
         this.input.value = this.isManualOnly ? num : num + this.unit;
-
         this.input.dataset.rawValue = num;
     }
 
     /**
-     * 🔒 LOCK SAFE MASTER SYNC
+     * MASTER SYNC
+     * Always allow tax updates.
+     * Only block engine recalculation if locked.
      */
     syncToMaster(val) {
         const num = parseFloat(val) || 0;
 
-              if (
+        if (
             typeof TAX_MASTER_ARRAY !== 'undefined' &&
             Array.isArray(TAX_MASTER_ARRAY) &&
             this.masterIndex !== undefined
         ) {
+            // Always update tax array
             TAX_MASTER_ARRAY[this.masterIndex] = num;
 
-            // Trigger recalculation safely
-            if (window.calculateSea) window.calculateSea();
-            if (window.calculateAir) window.calculateAir();
+            // 🔒 Only block calculation
+            if (window.ENGINEX_ACCESS === true) {
+                if (window.calculateSea) window.calculateSea();
+                if (window.calculateAir) window.calculateAir();
+            }
         }
     }
 }
@@ -119,8 +125,7 @@ const TaxManager = {
     instances: {},
 
     init() {
-
-        // COMPLEX INPUTS (Dropdown based)
+        // COMPLEX INPUTS
         this.create(
             'sea-pricePerCBM-input',
             'Price per CBM (💲):',
@@ -148,7 +153,7 @@ const TaxManager = {
             'sea-tax-fields-main'
         );
 
-        // SIMPLE INPUTS (No dropdown)
+        // SIMPLE INPUTS
         this.create('sea-withholdingTax-input', null, '%', null, 2);
         this.create('sea-infrastructureLevy-input', null, '%', null, 3);
         this.create('sea-idf-input', null, '%', null, 4);
@@ -164,14 +169,10 @@ const TaxManager = {
     },
 
     applyMasterArray(rates) {
-
-        // If locked, do not attempt to update UI from engine
-        if (window.ENGINEX_ACCESS !== true) return;
-
         const keys = [
-            'sea-customsDutyRate-input', 
-            'sea-vatRate-input', 
-            'sea-withholdingTax-input', 
+            'sea-customsDutyRate-input',
+            'sea-vatRate-input',
+            'sea-withholdingTax-input',
             'sea-infrastructureLevy-input',
             'sea-idf-input'
         ];
