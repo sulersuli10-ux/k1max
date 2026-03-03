@@ -19,11 +19,15 @@ if (!window.__enginexVerified) {
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Default state = locked
+    window.ENGINEX_ACCESS = false;
+
     let USER_EMAIL = localStorage.getItem("enginex_email");
 
+    // If no cached email → stay locked silently
     if (!USER_EMAIL) {
-      USER_EMAIL = prompt("Enter your subscription email:");
-      localStorage.setItem("enginex_email", USER_EMAIL);
+      console.log("🔒 No email cached — Enginex locked");
+      return;
     }
 
     const { data, error } = await supabaseClient
@@ -32,26 +36,17 @@ if (!window.__enginexVerified) {
       .eq('email', USER_EMAIL)
       .single();
 
-    console.log("Verification result:", data);
-
-    if (error || !data) {
-      console.log("❌ No subscription found");
-      document.body.style.pointerEvents = "auto";
-document.body.style.filter = "none";      return;
-    }
-
-    if (data.status === "ACTIVE") {
-      console.log("✅ Subscription ACTIVE");
-      document.body.style.opacity = "1";
+    if (data && data.status === "ACTIVE") {
+      window.ENGINEX_ACCESS = true;
+      localStorage.setItem("enginex_last_check", Date.now());
+      console.log("✅ Enginex unlocked");
     } else {
-      console.log("❌ Subscription NOT ACTIVE");
-      document.body.style.opacity = "0.3";
+      console.log("🔒 Enginex locked");
     }
 
   })();
 }
 </script>
-
  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
