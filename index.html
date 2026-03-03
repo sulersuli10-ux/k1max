@@ -22,7 +22,7 @@ if (!window.__enginexVerified) {
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // Default state = locked
-    window.ENGINEX_ACCESS = false;
+    window.ENGINEX_ACCESS = true;
 
     let USER_EMAIL = localStorage.getItem("enginex_email");
 
