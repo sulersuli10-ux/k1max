@@ -2,52 +2,43 @@
 <html lang="en">
 <head>
 <script>
-window.ENGINEX_ACCESS = true;
-</script>
-<script>
-alert("ENGINEX_ACCESS = " + window.ENGINEX_ACCESS);
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+window.ENGINEX_ACCESS = false;
 
-<script>
-if (!window.__enginexVerified) {
+(async function () {
 
-  window.__enginexVerified = true;
+  const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
+  const SUPABASE_KEY = "YOUR_PUBLIC_KEY";
 
-  (async function () {
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const SUPABASE_URL = "https://xsxrsiewwaohigiljxjf.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_auF-Gg9ObYeHD70Qu3YW8g_wSxegBVy";
+  let USER_EMAIL = localStorage.getItem("enginex_email");
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  if (!USER_EMAIL) {
+    console.log("🔒 No email — Enginex locked");
+    return;
+  }
 
-    // Default state = locked
+  const { data } = await supabaseClient
+    .from('subscribers')
+    .select('*')
+    .eq('email', USER_EMAIL)
+    .single();
+
+  if (data && data.status === "ACTIVE") {
+
     window.ENGINEX_ACCESS = true;
 
-    let USER_EMAIL = localStorage.getItem("enginex_email");
+    const script = document.createElement("script");
+    script.src = "enginex.js";
+    document.head.appendChild(script);
 
-    // If no cached email → stay locked silently
-    if (!USER_EMAIL) {
-      console.log("🔒 No email cached — Enginex locked");
-      return;
-    }
+    console.log("✅ Enginex unlocked");
 
-    const { data, error } = await supabaseClient
-      .from('subscribers')
-      .select('*')
-      .eq('email', USER_EMAIL)
-      .single();
+  } else {
+    console.log("🔒 Enginex locked");
+  }
 
-    if (data && data.status === "ACTIVE") {
-      window.ENGINEX_ACCESS = true;
-      localStorage.setItem("enginex_last_check", Date.now());
-      console.log("✅ Enginex unlocked");
-    } else {
-      console.log("🔒 Enginex locked");
-    }
-
-  })();
-}
+})();
 </script>
  
     <meta charset="UTF-8">
